@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Formulario from './Formulario';
+import Tabela from './Tabela';
 
 function App() {
+
+  const [transferencias, setTransferencia] = useState([]);
+
+  useEffect(() => {
+      obterDados();
+  })
+
+  const obterDados = async () => {
+
+    const dados = await fetch('http://localhost:8080/transferencia');
+    const converter = await dados.json();
+    setTransferencia(converter);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Formulario />
+      <Tabela vetor={transferencias}/>
     </div>
   );
 }
